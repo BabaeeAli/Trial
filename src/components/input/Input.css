@@ -1,0 +1,21 @@
+.inputMain {
+    width: 50%;
+    direction: rtl;
+    background-color: #fff;
+    text-align: center;
+    font-size: 40px;
+    padding: 18px 14px!important;
+    transition: all 0.1s!important;
+    min-height: 40px!important;
+    display: flex!important;
+    white-space: nowrap!important;
+    align-items: center!important;
+    justify-content: center!important;
+    content: "$";
+  }
+  .inputMain:focus-visible  {
+    outline: none;
+    border-bottom: 10px double rgb(56, 201, 201);
+  }
+  .inputMain:disabled{
+color: gray;  }
