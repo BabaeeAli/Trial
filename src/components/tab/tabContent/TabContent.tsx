@@ -4,61 +4,43 @@ import Input from "../../input/Input";
 import { useAppSelector, useAppDispatch } from "../../../hooks/hooks";
 import { addAmount } from "../../../Providers/Pay/paySlice";
 import { addkey } from "../../../Providers/KeyPad/keyPadSlice";
-import { toast } from "react-toastify";
 
 type Props = {};
 
 const TabContent = (props: Props) => {
   const payRef = useRef<HTMLInputElement>(null);
   const givenRef = useRef<HTMLInputElement>(null);
-  const [givenInpuValue, setGivenInpuValue] = useState<String>("");
-  const [paymentInpuValue, setPaymentInpuValue] = useState<String>("");
+  const [givenInpuValue, setGivenInpuValue] = useState<number>(0);
+  const [paymentInpuValue, setPaymentInpuValue] = useState<number>(0);
   const [focuse, setfocus] = useState<String>("");
-  const [disable, setDisable] = useState<boolean>(true);
   const dispatch = useAppDispatch();
   const given = useAppSelector((state) => state.ongivens.amount);
   const keypad = useAppSelector((state) => state.onkeyPads.amount);
+  const key = useAppSelector((state) => state.onEnter.key);
+  const status = useAppSelector((state) => state.onEnter.status);
 
-  const onPayment = (e: any) => {
-    if (+e.target.value.replace(/[^0-9]/g, "")) {
-      if (e.key === "Enter") {
-        dispatch(
-          addAmount(
-            e.target.value.replace(/[^0-9,.]/g, "").replaceAll(",", ".")
-          )
-        );
-        setDisable(false);
-      }
-      givenRef.current?.focus();
-    } else {
-      toast.info("Please enter the to Pay price ");
-    }
-  };
   useEffect(() => {
     payRef.current?.focus();
   }, []);
 
   useEffect(() => {
-
-    if (!disable) {
-      if (+givenInpuValue > 10000) {
-        toast.error("The given price should be between 1 to 100,000");
-
-      }else{
-        if (given) {
-          setGivenInpuValue(given);
-        } else {
-          setGivenInpuValue(keypad);
-        }
+    if (status === true) {
+      setfocus("pay");
+    }
+    if (focuse === "given") {
+      if (given) {
+        setGivenInpuValue(+given);
+      } else {
+        setGivenInpuValue(keypad);
       }
     } else {
-      if (+paymentInpuValue > 10000) {
-        toast.error("The to pay price should be between 1 to 100,000");
-      } else {
-        setPaymentInpuValue(keypad);
+      setPaymentInpuValue(keypad);
+      if (key === "Enter") {
+        dispatch(addAmount(+((keypad / 1000) * 10).toFixed(2)));
+        givenRef.current?.focus();
       }
     }
-  }, [given, keypad]);
+  }, [given, keypad, key]);
 
   return (
     <>
@@ -67,15 +49,17 @@ const TabContent = (props: Props) => {
           <div className="flex justify-start bg-white w-full text-gray text-xl px-7 pb-8 mb-1 mx-16">
             <p className="w-1/4">Zu Zuhlen</p>
             <Input
-              handleKeyPress={(e) => onPayment(e)}
-              values={new Intl.NumberFormat("de-DE", {
-                style: "currency",
-                currency: "EUR",
-              }).format(
-                paymentInpuValue ? parseFloat(paymentInpuValue.toString()) : 0
-              )}
+              values={
+                paymentInpuValue
+                  ? (
+                      (parseFloat(paymentInpuValue.toString()) / 1000) *
+                      10
+                    ).toFixed(2) + "€"
+                  : 0
+              }
+              // disables={!status}
               checkFocus={(e) => setfocus("pay")}
-              checkblur={(e) => dispatch(addkey(""))}
+              checkblur={(e) => dispatch(addkey(0))}
               ref={payRef}
             />
           </div>
@@ -83,17 +67,18 @@ const TabContent = (props: Props) => {
             <p className="w-1/4">Gegeben</p>
 
             <Input
-              handleKeyPress={(e) => onPayment(e)}
-              values={new Intl.NumberFormat("de-DE", {
-                style: "currency",
-                currency: "EUR",
-              }).format(
-                givenInpuValue ? parseFloat(givenInpuValue.toString()) : 0
-              )}
-              ref={givenRef}
+              values={
+                givenInpuValue
+                  ? (
+                      (parseFloat(givenInpuValue.toString()) / 1000) *
+                      10
+                    ).toFixed(2) + "€"
+                  : 0
+              }
               checkFocus={(e) => setfocus("given")}
-              disables={disable}
-              checkblur={(e) => dispatch(addkey(""))}
+              disables={status}
+              checkblur={(e) => dispatch(addkey(0))}
+              ref={givenRef}
             />
           </div>
         </div>

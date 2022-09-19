@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface onPay {
-  amount: String;
+  amount: number;
 }
 
 const initialState: onPay = {
-  amount: "",
+  amount: 0,
 };
 const PaySlice = createSlice({
   name: "pay",
   initialState,
   reducers: {
-    addAmount: (state, action: PayloadAction<String>) => {
+    addAmount: (state, action: PayloadAction<number>) => {
       state.amount = action.payload;
     },
   },

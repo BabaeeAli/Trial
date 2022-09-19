@@ -1,16 +1,26 @@
 import Payment from "./pages/Payment/Payment";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { Provider } from "react-redux";
-import { store } from "./Providers/store";
+import { useAppDispatch } from "./hooks/hooks";
+import { enterKey } from "./Providers/keyHandler/keyHandler";
+
+import { useEffect, useCallback } from "react";
 function App() {
+  const dispatch = useAppDispatch();
+
+  const handleEnter = useCallback((event: any) => {
+    dispatch(enterKey(event.key));
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleEnter);
+  }, [handleEnter]);
+
   return (
     <>
-        <Provider store={store}>
-          <Payment />
-          <ToastContainer />
-        </Provider>
+      <Payment />
+      <ToastContainer />
     </>
   );
 }

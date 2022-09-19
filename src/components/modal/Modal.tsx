@@ -20,13 +20,18 @@ const Modal: FC<Props> = ({ handleModal, pays }) => {
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                 // onClick={() => setShowModal}
               >
-                <Button children="x" classNames="text-gray" handleClick={handleModal} />
+                <Button
+                  children="x"
+                  classNames="text-gray"
+                  handleClick={handleModal}
+                />
               </button>
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
               <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                You should recieve:<span className="text-mainColor"> {pays}</span> Euro
+                You should pay:
+                <span className="text-mainColor text-slate-500 text-3xl"> {pays?.toFixed(2)}</span> € back
               </p>
             </div>
             {/*footer*/}

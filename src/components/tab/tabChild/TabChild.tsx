@@ -14,7 +14,7 @@ const TabChild = (props: Props) => {
   return (
     <>
       <div className="flex flex-row justify-center items-end bg-tabContent">
-        {childTabs.map((item,key) => (
+        {childTabs.map((item:any,key:any) => (
           <Button
             key={key}
             classNames="text-blue w-52 py-4 px-6 m-px bg-buttonSecondary hover:bg-mainColor active:m-0 "
