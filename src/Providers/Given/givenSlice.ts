@@ -13,7 +13,6 @@ const initialState: onGiven = {
   initialState,
   reducers: {
     setAmount: (state, action: PayloadAction<String>) => {
-      console.log(action.payload)
       state.amount = action.payload;
       
     },

@@ -19,9 +19,11 @@ const TabContent = (props: Props) => {
   const key = useAppSelector((state) => state.onEnter.key);
   const status = useAppSelector((state) => state.onEnter.status);
 
-
-  const onChangeHandler=(e:any)=>{
-  }
+  const formatValueAsPrice = (value: number): string => {
+    return value
+      ? ((parseFloat(value.toString()) / 1000) * 10).toFixed(2) + "€"
+      : "0";
+  };
   useEffect(() => {
     payRef.current?.focus();
   }, []);
@@ -52,16 +54,9 @@ const TabContent = (props: Props) => {
           <div className="flex justify-start bg-white w-full text-gray text-xl px-7 pb-8 mb-1 mx-16">
             <p className="w-1/4">Zu Zuhlen</p>
             <Input
-              values={
-                paymentInpuValue
-                  ? (
-                      (parseFloat(paymentInpuValue.toString()) / 1000) *
-                      10
-                    ).toFixed(2) + "€"
-                  : 0
-              }
+              values={formatValueAsPrice(paymentInpuValue)}
               // disables={!status}
-              onValueChange={(e)=>onChangeHandler(e)}
+              onValueChange={() => {}}
               checkFocus={(e) => setfocus("pay")}
               checkblur={(e) => dispatch(addkey(0))}
               ref={payRef}
@@ -71,14 +66,7 @@ const TabContent = (props: Props) => {
             <p className="w-1/4">Gegeben</p>
 
             <Input
-              values={
-                givenInpuValue
-                  ? (
-                      (parseFloat(givenInpuValue.toString()) / 1000) *
-                      10
-                    ).toFixed(2) + "€"
-                  : 0
-              }
+              values={formatValueAsPrice(givenInpuValue)}
               checkFocus={(e) => setfocus("given")}
               disables={status}
               checkblur={(e) => dispatch(addkey(0))}

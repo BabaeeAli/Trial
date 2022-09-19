@@ -63,7 +63,7 @@ const BarChild = (props: Props) => {
             <Button
               names={item}
               classNames="bg-padButton text-white text-xl  py-2 mb-1 hover:bg-buttoncyan"
-              key={item + key}
+              key={key}
               children={item.toFixed(2) + "€"}
               handleClick={(e) => handleClick(e)}
             />
@@ -74,7 +74,7 @@ const BarChild = (props: Props) => {
             return (
               <>
                 <Button
-                  key={item}
+                  key={key}
                   children={item}
                   names={item}
                   handleClick={(e) => handleKeypadClick(e)}

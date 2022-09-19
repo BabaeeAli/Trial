@@ -17,9 +17,7 @@ const keySlice = createSlice({
       if (action.payload === "Enter") {
         state.status = false;
       }
-      if (action.payload === "new") {
-        state.status = true;
-      }
+
       state.key = action.payload;
     },
     reset:()=>initialState
