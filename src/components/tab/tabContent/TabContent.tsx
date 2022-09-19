@@ -19,6 +19,9 @@ const TabContent = (props: Props) => {
   const key = useAppSelector((state) => state.onEnter.key);
   const status = useAppSelector((state) => state.onEnter.status);
 
+
+  const onChangeHandler=(e:any)=>{
+  }
   useEffect(() => {
     payRef.current?.focus();
   }, []);
@@ -58,6 +61,7 @@ const TabContent = (props: Props) => {
                   : 0
               }
               // disables={!status}
+              onValueChange={(e)=>onChangeHandler(e)}
               checkFocus={(e) => setfocus("pay")}
               checkblur={(e) => dispatch(addkey(0))}
               ref={payRef}

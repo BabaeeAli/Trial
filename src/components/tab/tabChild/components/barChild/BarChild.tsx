@@ -29,7 +29,6 @@ const BarChild = (props: Props) => {
     dispatch(setAmount("0"));
     dispatch(addAmount(0));
     dispatch(reset());
-
   };
   const handleClick = (e: any) => {
     dispatch(setAmount(((+e.target.name * 1000) / 10).toString()));
@@ -41,7 +40,6 @@ const BarChild = (props: Props) => {
   };
   const calulation = (price: number) => {
     let result: Number[] = [];
-
     result = [
       price,
       Math.ceil(price),
@@ -65,8 +63,7 @@ const BarChild = (props: Props) => {
             <Button
               names={item}
               classNames="bg-padButton text-white text-xl  py-2 mb-1 hover:bg-buttoncyan"
-              key={item+key}
-              
+              key={item + key}
               children={item.toFixed(2) + "€"}
               handleClick={(e) => handleClick(e)}
             />
